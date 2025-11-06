@@ -1,0 +1,40 @@
+/* src/components/common/Navbar.css */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #333;
+  color: white;
+}
+.nav-brand a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.nav-links a,
+.nav-user {
+  color: white;
+  text-decoration: none;
+}
+.nav-links a.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
+.nav-logout {
+  background: #d9534f;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.nav-logout:hover {
+  background: #c9302c;
+}

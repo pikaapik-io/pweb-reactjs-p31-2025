@@ -1,0 +1,87 @@
+/* src/components/features/BookCard.css */
+.book-card {
+  display: block;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+  color: #333;
+  transition: box-shadow 0.2s;
+  position: relative;
+}
+.book-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* (Optional) Jika pakai gambar */
+.book-card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  background-color: #eee;
+}
+
+.book-card-content {
+  padding: 1rem;
+}
+
+.book-card-genre {
+  font-size: 0.8rem;
+  color: #09f;
+  font-weight: bold;
+}
+
+.book-card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0.25rem 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.book-card-writer {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+}
+
+.book-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #eee;
+}
+
+.book-card-price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #d9534f;
+}
+
+.book-card-stock {
+  font-size: 0.9rem;
+  color: #5cb85c;
+}
+
+.book-card-delete {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  opacity: 0; /* Sembunyikan by default */
+  transition: opacity 0.2s;
+  font-weight: bold;
+}
+
+.book-card:hover .book-card-delete {
+  opacity: 1; /* Muncul saat di-hover */
+}

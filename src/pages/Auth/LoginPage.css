@@ -1,0 +1,70 @@
+/* src/pages/Auth/LoginPage.css */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 2rem;
+}
+
+.login-bg {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(ellipse at 20% 20%, rgba(255,255,255,0.02), transparent 10%),
+                    linear-gradient(180deg, rgba(6,17,30,0.45), rgba(2,6,23,0.6));
+  filter: blur(8px) saturate(1.05);
+  z-index: 0;
+}
+
+.login-card {
+  position: relative;
+  z-index: 2;
+  width: 420px;
+  max-width: calc(100% - 3rem);
+  padding: 2.2rem 2.4rem;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 20px 60px rgba(2,6,23,0.6);
+  backdrop-filter: blur(8px) saturate(1.1);
+  color: var(--text);
+  text-align: center;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.login-title {
+  margin: 0 0 0.3rem 0;
+  font-size: 1.6rem;
+}
+.login-sub {
+  margin: 0 0 1.2rem 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.login-form {
+  text-align: left;
+}
+
+.form-group { margin-bottom: 1rem; }
+.form-group label { display:block; margin-bottom:0.35rem; color:var(--muted); }
+
+.form-error { color: var(--danger); margin-bottom: 0.75rem; }
+
+.signup-p { margin-top: 1rem; color: var(--muted); font-size: 0.9rem; }
+
+@media (max-width: 520px) {
+  .login-card { padding: 1.6rem; width: 100%; border-radius: 12px; }
+  .close-btn { top: 8px; right: 8px; }
+}
