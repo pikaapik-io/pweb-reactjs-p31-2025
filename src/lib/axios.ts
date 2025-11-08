@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Ganti dengan URL base backend Anda (dari modul 3)
-const BASE_URL = 'http://localhost:8080/api/v1'; // Contoh
+const BASE_URL = 'http://localhost:8080/'; // Contoh
 
 export const api = axios.create({
   baseURL: BASE_URL,
