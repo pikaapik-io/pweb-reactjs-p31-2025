@@ -4,9 +4,9 @@
 // Tipe ini mendefinisikan data user yang kita dapat saat login
 // Sesuai requirement, minimal ada email
 export interface User {
-  id: number;
+  id: string;  // UUID string from backend
   email: string;
-  name: string;
+  username: string;
 }
 
 export interface LoginResponse {

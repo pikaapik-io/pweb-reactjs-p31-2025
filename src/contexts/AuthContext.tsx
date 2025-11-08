@@ -28,7 +28,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         try {
           // Panggil endpoint /me di backend Anda
           const response = await api.get("/auth/me");
-          setUser(response.data.user);
+          console.log("ME Response:", response.data); // Debug /me response
+          const userData = response.data.data; // Sesuaikan dengan struktur response
+          setUser(userData);
           setIsAuthenticated(true);
         } catch (error) {
           // Token tidak valid/expired
@@ -43,11 +45,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await api.post("/auth/login", { email, password });
-      const accessToken = response.data.data.access_token;
+      const response = await api.post<{ data: { access_token: string; user: User } }>("/auth/login", { email, password });
+      console.log("Login Response:", response.data); // Debug response
+      const { access_token, user: userData } = response.data.data;
+      console.log("User Data:", userData); // Debug extracted user data
 
-      localStorage.setItem("token", accessToken);
-      setUser(user);
+      localStorage.setItem("token", access_token);
+      setUser(userData);
       setIsAuthenticated(true);
       return true;
     } catch (error) {
