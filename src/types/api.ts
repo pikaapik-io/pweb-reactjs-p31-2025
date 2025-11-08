@@ -4,7 +4,7 @@
 // Tipe ini mendefinisikan data user yang kita dapat saat login
 // Sesuai requirement, minimal ada email
 export interface User {
-  id: string;  // UUID string from backend
+  id: string; // UUID string from backend
   email: string;
   username: string;
 }
