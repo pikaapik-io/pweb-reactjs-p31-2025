@@ -1,8 +1,8 @@
 // src/contexts/AuthContext.tsx
-import { createContext, useState, useEffect } from 'react';
-import type { ReactNode } from 'react';
-import { api } from '../lib/axios';
-import type { User, LoginResponse } from '../types/api';
+import { createContext, useState, useEffect } from "react";
+import type { ReactNode } from "react";
+import { api } from "../lib/axios";
+import type { User } from "../types/api";
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -23,16 +23,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     // Cek token saat aplikasi pertama kali dimuat
     const validateToken = async () => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (token) {
         try {
           // Panggil endpoint /me di backend Anda
-          const response = await api.get('/auth/me');
+          const response = await api.get("/auth/me");
           setUser(response.data.user);
           setIsAuthenticated(true);
         } catch (error) {
           // Token tidak valid/expired
-          localStorage.removeItem('token');
+          localStorage.removeItem("token");
           setIsAuthenticated(false);
         }
       }
@@ -43,31 +43,31 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await api.post('/auth/login', { email, password });
+      const response = await api.post("/auth/login", { email, password });
       const accessToken = response.data.data.access_token;
-      
-      localStorage.setItem('token', accessToken);
+
+      localStorage.setItem("token", accessToken);
       setUser(user);
       setIsAuthenticated(true);
       return true;
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error("Login failed:", error);
       return false;
     }
   };
-  
+
   const register = async (name: string, email: string, password: string) => {
     try {
-      await api.post('/auth/register', { name, email, password });
+      await api.post("/auth/register", { name, email, password });
       return true; // Sukses register
     } catch (error) {
-      console.error('Register failed:', error);
+      console.error("Register failed:", error);
       return false;
     }
   };
 
   const logout = () => {
-    localStorage.removeItem('token'); //
+    localStorage.removeItem("token"); //
     setUser(null);
     setIsAuthenticated(false);
   };
