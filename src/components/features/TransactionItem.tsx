@@ -1,6 +1,6 @@
 // src/components/features/TransactionItem.tsx
-import { useNavigate } from 'react-router-dom';
-import type { Transaction } from '../../types/api';
+import { useNavigate } from "react-router-dom";
+import type { Transaction } from "../../types/api";
 
 interface TransactionItemProps {
   transaction: Transaction;
@@ -13,11 +13,28 @@ const TransactionItem = ({ transaction: trx }: TransactionItemProps) => {
   return (
     <tr>
       <td>{trx.id}</td>
-      <td>{new Date(trx.createdAt).toLocaleString()}</td>
-      <td>{trx.totalAmount}</td>
-      <td>Rp {trx.totalPrice.toLocaleString()}</td>
+      <td>{new Date(trx.created_at).toLocaleString("id-ID")}</td>
+      <td>{trx.total_quantity}</td>
+      <td>Rp {trx.total_price.toLocaleString("id-ID")}</td>
       <td>
-        <button onClick={() => navigate(`/transactions/${trx.id}`)}>
+        <button
+          onClick={() => navigate(`/transactions/${trx.id}`)}
+          style={{
+            background: "rgba(59, 130, 246, 0.1)",
+            color: "#93c5fd",
+            border: "1px solid rgba(59, 130, 246, 0.3)",
+            padding: "0.5rem 1rem",
+            borderRadius: "6px",
+            cursor: "pointer",
+            transition: "all 0.2s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = "rgba(59, 130, 246, 0.2)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "rgba(59, 130, 246, 0.1)";
+          }}
+        >
           Lihat Detail
         </button>
       </td>

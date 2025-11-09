@@ -43,11 +43,10 @@ export interface Book {
 // --- Transaction ---
 // Tipe untuk list transaksi
 export interface Transaction {
-  id: number;
-  userId: number;
-  totalAmount: number; // Ini 'amount' di soal
-  totalPrice: number; // Ini 'price' di soal
-  createdAt: string; // Tanggal transaksi
+  id: string; // UUID string dari backend
+  total_quantity: number;
+  total_price: number;
+  created_at: string; // ISO date string
 }
 
 // Tipe untuk detail transaksi
