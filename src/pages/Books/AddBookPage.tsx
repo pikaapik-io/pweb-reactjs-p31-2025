@@ -22,18 +22,16 @@ const AddBookPage = () => {
     }
 
     try {
-      // Transform to snake_case for backend compatibility
+      // Format payload sesuai format Thunder Client yang berhasil
       const payload = {
         title: formData.title,
         writer: formData.writer,
         publisher: formData.publisher,
-        price: formData.price,
-        stock: formData.stock,
-        genre_id: Number(formData.genreId),
-        condition: formData.condition,
-        publication_year: formData.publicationYear,
-        isbn: formData.isbn,
-        description: formData.description,
+        publication_year: Number(formData.publicationYear),
+        description: formData.description || "",
+        price: Number(formData.price),
+        stock_quantity: Number(formData.stock), // perhatikan: stock diubah jadi stock_quantity
+        genre_id: formData.genreId, // genre_id adalah string UUID, jangan dikonversi ke number
       };
 
       // Log payload untuk debugging
