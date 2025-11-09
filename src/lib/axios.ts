@@ -1,7 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 
 // Ganti dengan URL base backend Anda (dari modul 3)
-const BASE_URL = 'http://localhost:8080/'; // Contoh
+// NOTE: avoid trailing slash to prevent double-slash in concatenated URLs
+const BASE_URL = "http://localhost:8080"; // Contoh
 
 export const api = axios.create({
   baseURL: BASE_URL,
@@ -10,9 +11,9 @@ export const api = axios.create({
 // Ini PENTING: Interceptor untuk menambahkan token ke setiap request
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
   },

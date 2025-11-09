@@ -1,7 +1,7 @@
 // src/components/features/BookForm.tsx
-import { useState, useEffect } from 'react';
-import { api } from '../../lib/axios';
-import type { Genre, Book } from '../../types/api';
+import { useState, useEffect } from "react";
+import { api } from "../../lib/axios";
+import type { Genre, Book } from "../../types/api";
 
 // Tipe untuk data form
 export type BookFormData = {
@@ -19,32 +19,26 @@ export type BookFormData = {
 
 interface BookFormProps {
   // Jika kita 'edit', kita passing data bukunya
-  initialData?: Book; 
+  initialData?: Book;
   // Fungsi yang akan dijalankan saat form di-submit
-  onSubmit: (data: BookFormData) => Promise<void>; 
+  onSubmit: (data: BookFormData) => Promise<void>;
   submitButtonText: string;
   isSubmitting: boolean;
   formError: string | null;
 }
 
-const BookForm = ({ 
-  initialData, 
-  onSubmit, 
-  submitButtonText,
-  isSubmitting,
-  formError 
-}: BookFormProps) => {
+const BookForm = ({ initialData, onSubmit, submitButtonText, isSubmitting, formError }: BookFormProps) => {
   const [formData, setFormData] = useState<BookFormData>({
-    title: initialData?.title ?? '',
-    writer: initialData?.writer ?? '',
-    publisher: initialData?.publisher ?? '',
+    title: initialData?.title ?? "",
+    writer: initialData?.writer ?? "",
+    publisher: initialData?.publisher ?? "",
     price: initialData?.price ?? 0,
     stock: initialData?.stock ?? 0,
-    genreId: initialData?.genre.id.toString() ?? '',
-    condition: initialData?.condition ?? 'New',
+    genreId: initialData?.genre?.id?.toString() ?? "",
+    condition: initialData?.condition ?? "New",
     publicationYear: initialData?.publicationYear ?? new Date().getFullYear(),
-    isbn: initialData?.isbn ?? '',
-    description: initialData?.description ?? '',
+    isbn: initialData?.isbn ?? "",
+    description: initialData?.description ?? "",
   });
 
   const [genres, setGenres] = useState<Genre[]>([]);
@@ -53,11 +47,31 @@ const BookForm = ({
   // Fetch genre untuk dropdown
   useEffect(() => {
     const fetchGenres = async () => {
-      try {
-        const response = await api.get('/genres');
-        setGenres(response.data.data);
-      } catch (err) {
-        setGenreLoadingError('Gagal memuat data genre.');
+      // Try a list of possible endpoints (some backends use different routes)
+      const candidates = ["/genres", "/genre", "/books/genres", "/master/genres", "/metadata/genres"];
+      let loaded = false;
+      let lastError: any = null;
+
+      for (const ep of candidates) {
+        try {
+          const response = await api.get(ep);
+          const payload = response.data?.data ?? response.data;
+          if (Array.isArray(payload)) {
+            setGenres(payload);
+            loaded = true;
+            break;
+          }
+        } catch (err) {
+          lastError = err;
+          // continue to next candidate
+        }
+      }
+
+      if (!loaded) {
+        console.error("All /genres fetch attempts failed", lastError);
+        const msg = lastError instanceof Error ? lastError.message : String(lastError);
+        setGenreLoadingError("Gagal memuat data genre. " + msg + " (tried several endpoints)");
+        setGenres([]);
       }
     };
     fetchGenres();
@@ -68,9 +82,10 @@ const BookForm = ({
     setFormData((prev) => ({
       ...prev,
       // Konversi ke angka jika itu field angka
-      [name]: (name === 'price' || name === 'stock' || name === 'publicationYear') 
-               ? parseInt(value) || 0 // || 0 untuk handle input kosong
-               : value,
+      [name]:
+        name === "price" || name === "stock" || name === "publicationYear"
+          ? parseInt(value) || 0 // || 0 untuk handle input kosong
+          : value,
     }));
   };
 
@@ -85,7 +100,7 @@ const BookForm = ({
         <label>Judul Buku</label>
         <input type="text" name="title" value={formData.title} onChange={handleChange} required />
       </div>
-      
+
       <div className="form-group">
         <label>Penulis</label>
         <input type="text" name="writer" value={formData.writer} onChange={handleChange} required />
@@ -95,13 +110,17 @@ const BookForm = ({
         <label>Penerbit</label>
         <input type="text" name="publisher" value={formData.publisher} onChange={handleChange} />
       </div>
-      
+
       <div className="form-group">
         <label>Genre</label>
         <select name="genreId" value={formData.genreId} onChange={handleChange} required>
-          <option value="" disabled>Pilih Genre</option>
-          {genres.map(genre => (
-            <option key={genre.id} value={genre.id}>{genre.name}</option>
+          <option value="" disabled>
+            Pilih Genre
+          </option>
+          {genres.map((genre) => (
+            <option key={genre.id} value={genre.id.toString()}>
+              {genre.name}
+            </option>
           ))}
         </select>
         {genreLoadingError && <p className="form-error">{genreLoadingError}</p>}
@@ -116,7 +135,7 @@ const BookForm = ({
         <label>Stok</label>
         <input type="number" name="stock" value={formData.stock} onChange={handleChange} required min="0" />
       </div>
-      
+
       <div className="form-group">
         <label>Kondisi</label>
         <select name="condition" value={formData.condition} onChange={handleChange}>
@@ -129,7 +148,7 @@ const BookForm = ({
         <label>Tahun Terbit</label>
         <input type="number" name="publicationYear" value={formData.publicationYear} onChange={handleChange} />
       </div>
-      
+
       <div className="form-group">
         <label>ISBN (Opsional)</label>
         <input type="text" name="isbn" value={formData.isbn} onChange={handleChange} />
@@ -141,9 +160,9 @@ const BookForm = ({
       </div>
 
       {formError && <p className="form-error">{formError}</p>}
-      
+
       <button type="submit" className="form-button" disabled={isSubmitting}>
-        {isSubmitting ? 'Menyimpan...' : submitButtonText}
+        {isSubmitting ? "Menyimpan..." : submitButtonText}
       </button>
     </form>
   );

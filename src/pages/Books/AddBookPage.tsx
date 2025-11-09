@@ -22,14 +22,48 @@ const AddBookPage = () => {
     }
 
     try {
-      await api.post("/books", {
-        ...formData,
-        genreId: parseInt(formData.genreId), // Konversi genreId ke angka
-      });
+      // Transform to snake_case for backend compatibility
+      const payload = {
+        title: formData.title,
+        writer: formData.writer,
+        publisher: formData.publisher,
+        price: formData.price,
+        stock: formData.stock,
+        genre_id: Number(formData.genreId),
+        condition: formData.condition,
+        publication_year: formData.publicationYear,
+        isbn: formData.isbn,
+        description: formData.description,
+      };
+
+      // Log payload untuk debugging
+      console.log("Sending payload:", payload);
+
+      try {
+        const response = await api.post("/books", payload);
+        console.log("Server response:", response.data);
+        console.log("Response headers:", response.headers);
+      } catch (err: any) {
+        console.log("Full error object:", err);
+        if (err.response) {
+          console.log("Response data:", err.response.data);
+          console.log("Response headers:", err.response.headers);
+        }
+        throw err; // Re-throw untuk ditangkap oleh catch block di luar
+      }
       alert("Buku berhasil ditambahkan!");
       navigate("/books"); // Kembali ke list buku
-    } catch (err) {
-      setError("Gagal menambahkan buku. Cek kembali data Anda.");
+    } catch (err: any) {
+      // Tampilkan pesan error lebih informatif berdasarkan respons API bila ada
+      console.error("Add book failed:", err);
+      if (err?.response) {
+        const status = err.response.status;
+        const data = err.response.data;
+        const serverMsg = data?.message ?? data?.error ?? JSON.stringify(data);
+        setError(`Gagal menambahkan buku. (${status}) ${serverMsg}`);
+      } else {
+        setError("Gagal menambahkan buku. Cek kembali data Anda.");
+      }
     } finally {
       setIsSubmitting(false);
     }

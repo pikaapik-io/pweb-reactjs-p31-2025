@@ -164,7 +164,7 @@ return (
                 }
               }}
             >
-              🛒 Keranjang
+               Keranjang
               {getTotalItems() > 0 && (
                 <span style={{
                   background: '#ef4444',
