@@ -268,7 +268,7 @@ return (
                     </span>
                   </td>
                   <td style={{ padding: '1rem 1.5rem' }}>
-                    <span style={{
+                                <span style={{
                       display: 'inline-flex',
                       alignItems: 'center',
                       padding: '0.375rem 0.75rem',
@@ -278,7 +278,12 @@ return (
                       background: book.stock > 10 ? 'rgba(34, 197, 94, 0.2)' : book.stock > 5 ? 'rgba(234, 179, 8, 0.2)' : 'rgba(239, 68, 68, 0.2)',
                       color: book.stock > 10 ? '#86efac' : book.stock > 5 ? '#fde047' : '#fca5a5'
                     }}>
-                      {book.stock} unit
+                                  {(() => {
+                                    const raw = (book as any).stock ?? (book as any).stok ?? (book as any).quantity ?? null;
+                                    const parsed = typeof raw === 'string' && raw.trim() !== '' && !Number.isNaN(Number(raw)) ? Number(raw) : raw;
+                                    if (typeof parsed === 'number') return parsed === 0 ? 'Habis' : `${parsed} unit`;
+                                    return parsed ?? '-';
+                                  })()}
                     </span>
                   </td>
                   <td style={{ padding: '1rem 1.5rem' }}>
@@ -292,7 +297,7 @@ return (
                       background: 'rgba(59, 130, 246, 0.2)',
                       color: '#93c5fd'
                     }}>
-                      {book.genre?.name}
+                                  {typeof book.genre === 'string' ? book.genre : book.genre?.name ?? '-'}
                     </span>
                   </td>
                   <td style={{ padding: '1rem 1.5rem' }}>
@@ -381,7 +386,7 @@ return (
                   background: book.stock > 10 ? 'rgba(34, 197, 94, 0.2)' : book.stock > 5 ? 'rgba(234, 179, 8, 0.2)' : 'rgba(239, 68, 68, 0.2)',
                   color: book.stock > 10 ? '#86efac' : book.stock > 5 ? '#fde047' : '#fca5a5'
                 }}>
-                  {book.stock} unit
+                  {typeof book.stock === 'number' ? `${book.stock} unit` : (book.stock ?? '-')}
                 </span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
@@ -398,7 +403,7 @@ return (
                   background: 'rgba(59, 130, 246, 0.2)',
                   color: '#93c5fd'
                 }}>
-                  {book.genre?.name}
+                  {typeof book.genre === 'string' ? book.genre : book.genre?.name ?? '-'}
                 </span>
               </div>
               <div style={{ display: 'flex', gap: '0.5rem' }}>

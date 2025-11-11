@@ -33,9 +33,9 @@ const TransactionDetailPage = () => {
   return (
     <div>
       <h2>Detail Transaksi #{transaction.id}</h2>
-      <p><strong>Tanggal:</strong> {new Date(transaction.createdAt).toLocaleString()}</p>
-      <p><strong>Total Item:</strong> {transaction.totalAmount}</p>
-      <p><strong>Total Harga:</strong> Rp {transaction.totalPrice.toLocaleString()}</p>
+      <p><strong>Tanggal:</strong> {new Date(transaction.created_at).toLocaleString()}</p>
+      <p><strong>Total Item:</strong> {transaction.total_quantity}</p>
+      <p><strong>Total Harga:</strong> Rp {transaction.total_price.toLocaleString()}</p>
       
       <h3 style={{ marginTop: '2rem' }}>Item yang Dibeli</h3>
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>

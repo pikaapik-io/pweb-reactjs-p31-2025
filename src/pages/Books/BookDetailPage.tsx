@@ -32,7 +32,9 @@ const BookDetailPage = () => {
 
   const handleAddToCart = () => {
     if (!book) return;
-    if (quantity > book.stock) {
+    // defensive: accept alternative stock keys from backend
+    const stockValue = (book as any).stock ?? (book as any).stok ?? (book as any).quantity ?? 0;
+    if (quantity > stockValue) {
       alert("Stok tidak mencukupi!");
       return;
     }
@@ -108,6 +110,7 @@ return (
             }}>
               Genre
             </p>
+            {/* compute stock/genre/condition with fallbacks */}
             <span style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -118,7 +121,7 @@ return (
               background: 'rgba(59, 130, 246, 0.2)',
               color: '#93c5fd'
             }}>
-              {book.genre.name}
+              {typeof book.genre === 'string' ? book.genre : book.genre?.name ?? '-'}
             </span>
           </div>
 
@@ -150,6 +153,7 @@ return (
             }}>
               Stok
             </p>
+            {/* try multiple keys for stock: stock, stok, quantity */}
             <span style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -160,7 +164,17 @@ return (
               background: book.stock > 10 ? 'rgba(34, 197, 94, 0.2)' : book.stock > 5 ? 'rgba(234, 179, 8, 0.2)' : 'rgba(239, 68, 68, 0.2)',
               color: book.stock > 10 ? '#86efac' : book.stock > 5 ? '#fde047' : '#fca5a5'
             }}>
-              {book.stock} unit tersedia
+              {(() => {
+                const raw = (book as any).stock ?? (book as any).stok ?? (book as any).quantity ?? null;
+                // accept numeric strings as well
+                const parsed = typeof raw === 'string' && raw.trim() !== '' && !Number.isNaN(Number(raw)) ? Number(raw) : raw;
+                if (typeof parsed === 'number') {
+                  if (parsed === 0) return 'Habis';
+                  return `${parsed} unit tersedia`;
+                }
+                // clearer fallback text and better contrast
+                return 'Tidak tersedia';
+              })()}
             </span>
           </div>
         </div>
@@ -177,7 +191,12 @@ return (
               Kondisi
             </p>
             <p style={{ color: 'white', fontSize: '1rem', fontWeight: '500' }}>
-              {book.condition}
+              {(() => {
+                const c = (book as any).condition ?? (book as any).kondisi ?? null;
+                if (c === null || c === undefined) return 'Tidak diketahui';
+                if (typeof c === 'string' && c.trim() === '') return 'Tidak diketahui';
+                return String(c);
+              })()}
             </p>
           </div>
 
