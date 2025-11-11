@@ -19,7 +19,7 @@ const CheckoutPage = () => {
     // Siapkan data untuk dikirim ke API /transactions
     const transactionData = {
       items: cartItems.map(item => ({
-        bookId: item.id,
+        book_id: item.id,
         quantity: item.quantity,
       })),
     };

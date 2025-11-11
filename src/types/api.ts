@@ -31,11 +31,11 @@ export interface Book {
   writer: string;
   publisher: string;
   price: number;
-  stock: number;
+  stockQuantity: number;
   isbn?: string; // Opsional
   description?: string; // Opsional
   publicationYear?: number; // Opsional
-  condition?: string; // Opsional
+  condition: string; // Opsional
   genre: Genre; // Genre adalah objek relasi
   // book_image?: string; // (Opsional)
 }

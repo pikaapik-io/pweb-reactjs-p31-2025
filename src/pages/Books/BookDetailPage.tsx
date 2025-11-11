@@ -33,7 +33,7 @@ const BookDetailPage = () => {
   const handleAddToCart = () => {
     if (!book) return;
     // defensive: accept alternative stock keys from backend
-    const stockValue = (book as any).stock ?? (book as any).stok ?? (book as any).quantity ?? 0;
+    const stockValue = (book as any).stockQuantity ?? (book as any).stock ?? (book as any).stok ?? (book as any).quantity ?? 0;
     if (quantity > stockValue) {
       alert("Stok tidak mencukupi!");
       return;
@@ -161,11 +161,11 @@ return (
               borderRadius: '6px',
               fontSize: '0.875rem',
               fontWeight: '500',
-              background: book.stock > 10 ? 'rgba(34, 197, 94, 0.2)' : book.stock > 5 ? 'rgba(234, 179, 8, 0.2)' : 'rgba(239, 68, 68, 0.2)',
-              color: book.stock > 10 ? '#86efac' : book.stock > 5 ? '#fde047' : '#fca5a5'
+              background: book.stockQuantity > 10 ? 'rgba(34, 197, 94, 0.2)' : book.stockQuantity > 5 ? 'rgba(234, 179, 8, 0.2)' : 'rgba(239, 68, 68, 0.2)',
+              color: book.stockQuantity > 10 ? '#86efac' : book.stockQuantity > 5 ? '#fde047' : '#fca5a5'
             }}>
               {(() => {
-                const raw = (book as any).stock ?? (book as any).stok ?? (book as any).quantity ?? null;
+                const raw = (book as any).stockQuantity ?? (book as any).stock ?? (book as any).stok ?? (book as any).quantity ?? null;
                 // accept numeric strings as well
                 const parsed = typeof raw === 'string' && raw.trim() !== '' && !Number.isNaN(Number(raw)) ? Number(raw) : raw;
                 if (typeof parsed === 'number') {
@@ -287,7 +287,7 @@ return (
           value={quantity}
           onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
           min="1"
-          max={book.stock}
+          max={book.stockQuantity}
           style={{
             width: '100px',
             padding: '0.75rem',
